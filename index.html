@@ -23,7 +23,7 @@
 <a class="card" style="--tint:#1d3047" href="/game/game5.html"><div class="icon" aria-hidden="true">🧠</div><div class="tag">Focus · Brain</div><h3>스트룹 뇌 정지 제어기</h3><p>글자 뜻에 속지 말고 색깔만 빠르게 고르세요.</p><div class="play">플레이하기<span>→</span></div></a>
 <a class="card" style="--tint:#263c2a" href="/game/game6.html"><div class="icon" aria-hidden="true">🏃</div><div class="tag">Runner · Reflex</div><h3>중력 반전 러너</h3><p>바닥과 천장을 오가며 장애물을 피하세요.</p><div class="play">플레이하기<span>→</span></div></a>
 </div></section>
-<section id="music" class="music" aria-labelledby="music-title"><div><div class="tag">MUSIC SPACE</div><h2 id="music-title">The Quiet After the Storm</h2><p>아래 버튼을 누르면 이 페이지에서 바로 재생돼요.</p></div><button class="button" id="play-song" type="button" aria-controls="suno-player" aria-expanded="false">▶ 바로 재생</button><div class="player-slot" id="suno-player" hidden aria-live="polite"></div></section>
+<section id="music" class="music" aria-labelledby="music-title"><div><div class="tag">MUSIC SPACE</div><h2 id="music-title">The Quiet After the Storm</h2><p>아래 버튼을 누르면 이 페이지에서 바로 재생돼요.</p></div><div class="track-picks" style="display:flex;gap:10px;flex-wrap:wrap;width:100%"><button class="button" id="play-song" type="button" aria-controls="suno-player" aria-expanded="false">▶ The Quiet After the Storm</button><button class="button" id="play-gugak" type="button" aria-controls="suno-player" aria-expanded="false">▶ 달빛 따라 장단 따라</button><button class="button" id="play-adventure" type="button" aria-controls="suno-player" aria-expanded="false">▶ 함께라면 별까지</button></div><div class="player-slot" id="suno-player" hidden aria-live="polite"></div></section>
 </main>
 <footer class="wrap footer"><strong>game.feed</strong><span>PLAY · ENJOY · REPEAT</span><span>게임과 음악을 모은 작은 공간</span></footer>
 <script>
@@ -45,7 +45,28 @@ playSongButton.addEventListener("click",()=>{
     playSongButton.setAttribute("aria-expanded","true");
     playerSlot.insertAdjacentHTML("beforeend",'<p class="player-note">자동 재생이 차단되면 플레이어의 ▶ 버튼을 눌러주세요. <a href="https://suno.com/song/38f18cc2-1899-4df9-af76-ee7488f632d9" target="_blank" rel="noopener noreferrer" style="color:#9cecf5;text-decoration:underline">Suno에서 곡 열기</a></p>');
   }
-});
+});const playGugakButton=document.getElementById("play-gugak");
+const playAdventureButton=document.getElementById("play-adventure");
+playSongButton.addEventListener("click",()=>{playerSlot.innerHTML="";},true);
+function selectSunoTrack(id,title,button){
+  playerSlot.innerHTML="";
+  const player=document.createElement("iframe");
+  player.title=title+" — Suno 플레이어";
+  player.src="https://suno.com/embed/"+id+"?autoplay=1";
+  player.allow="autoplay; encrypted-media; fullscreen";
+  player.allowFullscreen=true;
+  player.loading="eager";
+  player.referrerPolicy="no-referrer-when-downgrade";
+  playerSlot.appendChild(player);
+  playerSlot.hidden=false;
+  document.querySelectorAll(".track-picks .button").forEach(item=>item.setAttribute("aria-expanded","false"));
+  button.setAttribute("aria-expanded","true");
+  playSongButton.textContent="▶ The Quiet After the Storm";
+  playerSlot.insertAdjacentHTML("beforeend",'<p class="player-note">자동 재생이 차단되면 플레이어의 ▶ 버튼을 눌러주세요. <a href="https://suno.com/song/'+id+'" target="_blank" rel="noopener noreferrer" style="color:#9cecf5;text-decoration:underline">Suno에서 곡 열기</a></p>');
+}
+playGugakButton.addEventListener("click",()=>selectSunoTrack("1ab39237-e899-4f7b-9b80-6f0919ec773c","달빛 따라 장단 따라",playGugakButton));
+playAdventureButton.addEventListener("click",()=>selectSunoTrack("69a88f1e-c863-4c0b-8e03-2eb93e6578e9","함께라면 별까지",playAdventureButton));
+
 </script>
 </body>
 </html>
